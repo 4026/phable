@@ -1,0 +1,9 @@
+{
+  "animal":["amoeba","mongoose","capybara","yeti","dragon","unicorn","sphinx","kangaroo","boa","nematode","sheep","quail","goat","corgi","agouti","zebra","giraffe","rhino","skunk","dolphin","whale","bullfrog","okapi","sloth","monkey","orangutan","grizzly","moose","elk","dikdik","ibis","stork","finch","nightingale","goose","robin","eagle","hawk","iguana","tortoise","panther","lion","tiger","gnu","reindeer","raccoon","opossum"],
+  "emotion":["happy","sad","reflective","morose","gleeful","jealous","resentful","appreciative","proud"],
+  "name":["Jamal","Aisha","Marcel","Pearl","Gertrude","Bailey","Logan","Aiden","Scout","Ambrose","Beverly","Takashi","Hilda","Nadya","Salim","Carmen","Ming","Lakshmi","Naveen","Ginger"],
+  "placeAdj":["delightful","haunted","faraway","sunlit","magical","enchanted","serene","scenic"],
+  "place":["lagoon","lake","forest","island","grotto","mountain","desert","wasteland","meadow","river"],
+  "story":["Once #name# the #animal.capitalize# went on an adventure to the #placeAdj.capitalize# #place.capitalize#."],
+  "origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop][destination:pop]"]
+}

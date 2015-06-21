@@ -1,0 +1,24 @@
+{
+  "name": "four026/phable",
+  "type": "library",
+  "description": "A PHP library for processing generative grammars",
+  "keywords": ["procedural generation","generative grammar","random","story","Tracery", "Rant"],
+  "homepage": "http://github.com/4026/phable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ben Hallett",
+      "email": "4026@4026.me.uk",
+      "homepage": "http://4026.me.uk",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Four026\\Phable\\": "src"
+    }
+  }
+}
