@@ -32,6 +32,9 @@ class Grammar
 
         //Read in file as JSON.
         $file_data = json_decode(file_get_contents($grammar_path), true);
+        if (!isset($file_data) || json_last_error() != JSON_ERROR_NONE) {
+            throw new \RuntimeException("Error parsing JSON: " . json_last_error_msg());
+        }
 
         foreach ($file_data as $symbol => $nodes) {
             $this->nodes[$symbol] = [];
