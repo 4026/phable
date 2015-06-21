@@ -22,6 +22,7 @@ class Trace
 
     /**
      * An associative array mapping a symbol defined at runtime to the node that represents that symbol's value.
+     *
      * @var Node[]
      */
     private $runtime_symbols = [];
@@ -35,21 +36,25 @@ class Trace
 
     /**
      * @param string $start_symbol
+     *
      * @return $this
      */
     public function setStartSymbol($start_symbol)
     {
         $this->start_symbol = $start_symbol;
+
         return $this;
     }
 
     /**
      * @param int $seed
+     *
      * @return $this
      */
     public function setSeed($seed)
     {
         $this->seed = $seed;
+
         return $this;
     }
 
@@ -73,8 +78,9 @@ class Trace
     }
 
     /**
-     * @param Node $node
+     * @param Node        $node
      * @param string|null $variant
+     *
      * @return string
      */
     private function processNode(Node $node, $variant = null)
@@ -84,14 +90,12 @@ class Trace
         //Process the node string for any runtime symbol definitions, and remove them.
         $node_string = preg_replace_callback(
             '/\[(\w+?:.+?)\]/',
-            function($matches) {
+            function ($matches) {
                 list($runtime_symbol_name, $runtime_symbol_value) = explode(':', $matches[1]);
 
                 $runtime_symbol_node = new Node($this->processString($runtime_symbol_value));
 
                 $this->runtime_symbols[$runtime_symbol_name] = $runtime_symbol_node;
-
-                echo "Defined new runtime node: $runtime_symbol_name = {$runtime_symbol_node->text}";
 
                 return '';
             },
@@ -104,13 +108,16 @@ class Trace
 
     /**
      * @param string $string
+     *
      * @return string
      */
     private function processString($string)
     {
         return preg_replace_callback(
             '/#[\w.]+?#/',
-            function ($matches) { return $this->processSymbol($matches[0]); },
+            function ($matches) {
+                return $this->processSymbol($matches[0]);
+            },
             $string
         );
     }
@@ -127,7 +134,7 @@ class Trace
         if (strpos($symbol, '.') !== false) {
             list($symbol_name, $symbol_variant) = explode('.', $symbol);
         } else {
-            $symbol_name = $symbol;
+            $symbol_name    = $symbol;
             $symbol_variant = null;
         }
 
@@ -135,7 +142,7 @@ class Trace
             $symbol_node = $this->runtime_symbols[$symbol_name];
         } else {
             $possible_symbol_nodes = $this->grammar->getNodesForSymbol($symbol_name);
-            $symbol_node = $possible_symbol_nodes[mt_rand(0, count($possible_symbol_nodes) - 1)];
+            $symbol_node           = $possible_symbol_nodes[mt_rand(0, count($possible_symbol_nodes) - 1)];
         }
 
         return $this->processNode($symbol_node, $symbol_variant);

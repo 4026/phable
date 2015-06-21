@@ -3,6 +3,7 @@ namespace Four026\Phable;
 
 /**
  * A single word loaded from the dictionary.
+ *
  * @package Four026\Phable
  * @property-read string $text The (literal, unparsed) text content of the node.
  */
@@ -10,23 +11,25 @@ class Node
 {
     /**
      * The (literal, unparsed) text content of the node.
+     *
      * @var string
      */
     private $text;
 
     /**
      * Associative array of variants associated with this node.
+     *
      * @var string[]
      */
     public $variants;
 
     /**
-     * @param string $word
+     * @param string   $word
      * @param string[] $variants
      */
-    public function __construct($word, $variants = array())
+    public function __construct($word, $variants = [])
     {
-        $this->text = $word;
+        $this->text     = $word;
         $this->variants = $variants;
     }
 
@@ -41,6 +44,7 @@ class Node
                     'Undefined property via __get(): ' . $var_name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
                     E_USER_NOTICE
                 );
+
                 return null;
         }
     }
@@ -52,12 +56,12 @@ class Node
 
     /**
      * @param string $variant_name
+     *
      * @return string
      */
     public function getVariant($variant_name)
     {
-        switch ($variant_name)
-        {
+        switch ($variant_name) {
             case 'capitalize':
             case 'capitalise':
                 return ucfirst($this->text);

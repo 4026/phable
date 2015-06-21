@@ -4,15 +4,17 @@ namespace Four026\Phable;
 
 /**
  * Class for loading, storing and parsing a generative grammar.
+ *
  * @package Four026\Phable
  */
 class Grammar
 {
     /**
      * Associative array mapping symbols to arrays of Nodes that can be used in this grammar.
+     *
      * @var Node[][]
      */
-    private $nodes = array();
+    private $nodes = [];
 
     /**
      * @param string $grammar_path The path to the file to use as the specification for this grammar.
@@ -23,7 +25,7 @@ class Grammar
             throw new \InvalidArgumentException("Could not find specified grammar file: $grammar_path");
         }
 
-        if (($handle = fopen($grammar_path, "r")) === FALSE) {
+        if (($handle = fopen($grammar_path, "r")) === false) {
             throw new \RuntimeException("Unable to open grammar file: $grammar_path");
         }
         fclose($handle);
@@ -32,12 +34,12 @@ class Grammar
         $file_data = json_decode(file_get_contents($grammar_path), true);
 
         foreach ($file_data as $symbol => $nodes) {
-            $this->nodes[$symbol] = array();
+            $this->nodes[$symbol] = [];
             foreach ($nodes as $node) {
                 if (is_string($node)) {
                     $this->nodes[$symbol][] = new Node($node);
                 } else {
-                    $this->nodes[$symbol][] = new Node($node['normal'], array_diff_key($node, array('normal')));
+                    $this->nodes[$symbol][] = new Node($node['normal'], array_diff_key($node, ['normal']));
                 }
             }
         }
@@ -45,6 +47,7 @@ class Grammar
 
     /**
      * @param $symbol
+     *
      * @return Node[]
      */
     public function getNodesForSymbol($symbol)
