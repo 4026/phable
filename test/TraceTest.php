@@ -20,7 +20,7 @@ class TraceTest extends PHPUnit_Framework_TestCase
     function testGetText()
     {
         $this->assertEquals(
-            'Once Hilda the Hawk went on an adventure to the Faraway River. Seeing such a haunted river made Hilda the Hawk morose.',
+            'Once Hilda the Hawk went on an adventure to the Haunted River. Seeing such a sunlit river made Hilda the Hawk morose.',
             $this->trace->getText()
         );
     }

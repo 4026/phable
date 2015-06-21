@@ -61,14 +61,27 @@ class Node
      */
     public function getVariant($variant_name)
     {
+        //Use the defined variant, if there was one...
+        if (array_key_exists($variant_name, $this->variants)) {
+            return $this->variants[$variant_name];
+        }
+
+        //Otherwise, use built-in variants.
         switch ($variant_name) {
             case 'capitalize':
             case 'capitalise':
                 return ucfirst($this->text);
-        }
 
-        if (array_key_exists($variant_name, $this->variants)) {
-            return $this->variants[$variant_name];
+            case 's':
+            case 'plural':
+                return $this->text.'s';
+
+            case 'ed':
+            case 'past':
+                return $this->text.'ed';
+
+            case 'a':
+                return in_array($this->text[0], ['a', 'e', 'i', 'o', 'u']) ? 'an '.$this->text : 'a '.$this->text;
         }
 
         return $this->text;
