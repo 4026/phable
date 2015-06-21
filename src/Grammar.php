@@ -49,6 +49,10 @@ class Grammar
      */
     public function getNodesForSymbol($symbol)
     {
+        if (!array_key_exists($symbol, $this->nodes)) {
+            throw new \DomainException("Unknown symbol '$symbol'");
+        }
+
         return $this->nodes[$symbol];
     }
 }

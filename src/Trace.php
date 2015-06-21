@@ -14,16 +14,17 @@ class Trace
     /**
      * @var string
      */
-    private $start_symbol = 'story';
+    private $start_symbol = 'origin';
     /**
      * @var int
      */
     private $seed = null;
 
     /**
-     * @var string[][]
+     * An associative array mapping a symbol defined at runtime to the node that represents that symbol's value.
+     * @var Node[]
      */
-    private $tokens = array();
+    private $runtime_symbols = [];
 
     private $text;
 
@@ -78,22 +79,65 @@ class Trace
      */
     private function processNode(Node $node, $variant = null)
     {
-        return preg_replace_callback(
-            '/#([\w.]+)#/',
-            function ($matches) {
-                $symbol = $matches[1];
-                if (strpos($symbol, '.') !== false) {
-                    list($symbol_name, $symbol_variant) = explode('.', $symbol);
-                } else {
-                    $symbol_name = $symbol;
-                    $symbol_variant = null;
-                }
+        $node_string = isset($variant) ? $node->getVariant($variant) : $node->text;
 
-                $possible_symbol_nodes = $this->grammar->getNodesForSymbol($symbol_name);
-                $symbol_node = $possible_symbol_nodes[mt_rand(0, count($possible_symbol_nodes) - 1)];
-                return $this->processNode($symbol_node, $symbol_variant);
+        //Process the node string for any runtime symbol definitions, and remove them.
+        $node_string = preg_replace_callback(
+            '/\[(\w+?:.+?)\]/',
+            function($matches) {
+                list($runtime_symbol_name, $runtime_symbol_value) = explode(':', $matches[1]);
+
+                $runtime_symbol_node = new Node($this->processString($runtime_symbol_value));
+
+                $this->runtime_symbols[$runtime_symbol_name] = $runtime_symbol_node;
+
+                echo "Defined new runtime node: $runtime_symbol_name = {$runtime_symbol_node->text}";
+
+                return '';
             },
-            isset($variant) ? $node->getVariant($variant) : $node->text
+            $node_string
         );
+
+        //Render any symbols in the remainder of the node string.
+        return $this->processString($node_string);
+    }
+
+    /**
+     * @param string $string
+     * @return string
+     */
+    private function processString($string)
+    {
+        return preg_replace_callback(
+            '/#[\w.]+?#/',
+            function ($matches) { return $this->processSymbol($matches[0]); },
+            $string
+        );
+    }
+
+    /**
+     * @param string $symbol A symbol identifier, with or without surrounding '#' characters.
+     *
+     * @return string
+     */
+    private function processSymbol($symbol)
+    {
+        $symbol = str_replace('#', '', $symbol);
+
+        if (strpos($symbol, '.') !== false) {
+            list($symbol_name, $symbol_variant) = explode('.', $symbol);
+        } else {
+            $symbol_name = $symbol;
+            $symbol_variant = null;
+        }
+
+        if (array_key_exists($symbol_name, $this->runtime_symbols)) {
+            $symbol_node = $this->runtime_symbols[$symbol_name];
+        } else {
+            $possible_symbol_nodes = $this->grammar->getNodesForSymbol($symbol_name);
+            $symbol_node = $possible_symbol_nodes[mt_rand(0, count($possible_symbol_nodes) - 1)];
+        }
+
+        return $this->processNode($symbol_node, $symbol_variant);
     }
 }

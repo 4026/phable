@@ -4,6 +4,6 @@
   "name":["Jamal","Aisha","Marcel","Pearl","Gertrude","Bailey","Logan","Aiden","Scout","Ambrose","Beverly","Takashi","Hilda","Nadya","Salim","Carmen","Ming","Lakshmi","Naveen","Ginger"],
   "placeAdj":["delightful","haunted","faraway","sunlit","magical","enchanted","serene","scenic"],
   "place":["lagoon","lake","forest","island","grotto","mountain","desert","wasteland","meadow","river"],
-  "story":["Once #name# the #animal.capitalize# went on an adventure to the #placeAdj.capitalize# #place.capitalize#."],
-  "origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#[mainCharacter:pop][destination:pop]"]
+  "story":["Once #mainCharacter# went on an adventure to the #placeAdj.capitalize# #destination.capitalize#. Seeing such a #placeAdj# #destination# made #mainCharacter# #emotion#."],
+  "origin":["[mainCharacter:#name# the #animal.capitalize#][destination:#place#]#story#"]
 }
