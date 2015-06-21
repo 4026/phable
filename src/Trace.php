@@ -67,7 +67,9 @@ class Trace
             return $this->text;
         }
 
-        mt_srand($this->seed);
+        if (isset($this->seed)) {
+            mt_srand($this->seed);
+        }
 
         //It is assumed that the starting symbol contains exactly one Node.
         $starting_node = $this->grammar->getNodesForSymbol($this->start_symbol)[0];
