@@ -40,12 +40,21 @@ class Grammar
             $this->nodes[$symbol] = [];
             foreach ($nodes as $node) {
                 if (is_string($node)) {
-                    $this->nodes[$symbol][] = new Node($node);
+                    $this->addNode($symbol, new Node($node));
                 } else {
-                    $this->nodes[$symbol][] = new Node($node['normal'], array_diff_key($node, ['normal']));
+                    $this->addNode($symbol, new Node($node['normal'], array_diff_key($node, ['normal'])));
                 }
             }
         }
+    }
+
+    /**
+     * @param string $symbol
+     * @param Node $node
+     */
+    public function addNode($symbol, Node $node)
+    {
+        $this->nodes[$symbol][] = $node;
     }
 
     /**
